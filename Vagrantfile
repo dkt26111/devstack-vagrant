@@ -23,7 +23,6 @@ apt-get install -y git
 /usr/bin/git config --system url."https://".insteadOf git://
 USEHTTPS
 
-
 def configure_vm(name, vm, conf)
   vm.hostname = conf["hostname_#{name}"] || name
 
@@ -50,11 +49,17 @@ def configure_vm(name, vm, conf)
   vm.provider :virtualbox do |vb|
     # you need this for openstack guests to talk to each other
     vb.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
+    vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
     # if specified assign a static MAC address
     if conf["mac_address_#{name}"]
       vb.customize ["modifyvm", :id, "--macaddress2", conf["mac_address_#{name}"]]
     end
   end
+
+  vm.provision "shell" do |shell|
+    shell.inline = "sudo apt-get install puppet -y -f"
+  end
+
 
   # puppet provisioning
   vm.provision "puppet" do |puppet|
@@ -106,6 +111,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = conf['box_name'] || 'ubuntu/trusty64'
   config.vm.box_url = conf['box_url'] if conf['box_url']
 
+  config.vm.provider :virtualbox do |vb|
+
+       # Use VBoxManage to customize the VM. For example to change memory:
+       vb.customize ["modifyvm", :id, "--memory", "14192"]
+       vb.customize ["modifyvm", :id, "--cpus", "4"]
+   end
+
   if Vagrant.has_plugin?("vagrant-cachier")
     config.cache.scope = :box
   end
@@ -113,7 +125,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   if Vagrant.has_plugin?("vagrant-proxyconf") && conf['proxy']
     config.proxy.http     = conf['proxy']
     config.proxy.https    = conf['proxy']
-    config.proxy.no_proxy = "localhost,127.0.0.1,`facter ipaddress_eth1`,#{conf['hostname_manager']},#{conf['hostname_compute']},#{conf['ip_address_compute']},#{conf['ip_address_manager']},#{conf['user_domains']}"
+    config.proxy.no_proxy = "localhost,127.0.0.1,#{conf['hostname_manager']},#{conf['ip_address_manager']},#{conf['user_domains']}"
     config.vm.provision :shell, :inline => $git_use_https
   end
 
@@ -150,11 +162,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     manager.vm.network "forwarded_port", guest: 6080, host: 6080, host_ip: "127.0.0.1"
   end
 
-  if conf['hostname_compute']
-    config.vm.define "compute" do |compute|
-      configure_vm("compute", compute.vm, conf)
-    end
-  end
 
   # If true, then any SSH connections made will enable agent forwarding.
   # Default value: false

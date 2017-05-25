@@ -16,11 +16,13 @@ class base {
       exec { "apt-get update":
         command => "/usr/bin/apt-get update",
         before => Exec["apt-get upgrade"],
+        timeout => 1800,
       }
 
       exec { "apt-get upgrade":
-        command => "/usr/bin/apt-get upgrade -y",
+        command => "/usr/bin/apt-get upgrade -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold'",
         require => Exec["apt-get update"],
+        timeout => 1800,
       }
     }
   }

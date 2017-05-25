@@ -1,6 +1,5 @@
-# Hostname of the manager and the compute nodes.
-hostname_manager: manager.openstack.site
-hostname_compute: compute.openstack.site
+# Hostname of the node
+hostname_manager: allin1.openstack.site
 
 # The domain names and ips to add in the no_proxy variable (comma separated)
 user_domains: .mycompany.com,10.20.30.40
@@ -67,7 +66,6 @@ bridge_int: eth1
 # using the following parameters. If those parameters are not specified DHCP
 # will be used.
 #ip_address_manager: 10.0.10.10
-#ip_address_compute: 10.0.10.20
 
 # Extra images to download and add to glance, a list of url's comma separated
 # for new images to be added to glance
