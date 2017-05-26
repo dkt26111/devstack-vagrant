@@ -1,8 +1,9 @@
 devstack-vagrant
 ================
 
-This is an attempt to build an easy to use tool to bring up a 2 node
-devstack environment for local testing using Vagrant + Puppet.
+This is an all-in-one devstack environment using Vagrant and Puppet.
+It was originally forked from https://github.com/openstack-dev/devstack-vagrant.
+Below is the original README from that repo.
 
 It is *almost* fully generic, but still hard codes a few things about
 my environment for lack of a way to figure out how to do this
