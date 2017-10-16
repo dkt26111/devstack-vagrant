@@ -39,6 +39,9 @@ bridge_int: eth1
 #box_name: 'my.favorite'
 #box_url: http://gallifrey/vagrant/devstack-2014-02-19.box
 
+# Vagrant username used in box image, e.g. ubuntu
+#vagrant_username: vagrant
+
 # Non upstream Git URL to fetch Devstack from instead.
 #devstack_git: /home/vagrant/openstack/devstack
 
@@ -66,6 +69,10 @@ bridge_int: eth1
 # using the following parameters. If those parameters are not specified DHCP
 # will be used.
 #ip_address_manager: 10.0.10.10
+
+# Name of network interface in virtual machine - e.g. enp0s8 in ubuntu
+#guest_interface_default: eth1
+#host_ip_iface: eth1
 
 # Extra images to download and add to glance, a list of url's comma separated
 # for new images to be added to glance
