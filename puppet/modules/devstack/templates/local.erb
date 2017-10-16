@@ -67,5 +67,5 @@ NOVNC_BRANCH=v0.6.0
 
 [[post-config|$NOVA_CONF]]
 [DEFAULT]
-flat_interface = enp0s8
-vlan_interface = enp0s8
+flat_interface = <%= @guest_interface_default %>
+vlan_interface = <%= @guest_interface_default %>

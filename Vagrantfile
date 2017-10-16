@@ -23,6 +23,28 @@ apt-get install -y git
 /usr/bin/git config --system url."https://".insteadOf git://
 USEHTTPS
 
+
+############################ CUSTOM_SCRIPT ############################
+CUSTOM_SCRIPT = <<-EOF
+#!/bin/bash
+
+# install custom CA certificates
+sudo cp /vagrant/cacerts/*  /usr/local/share/ca-certificates/
+sudo update-ca-certificates
+
+sudo apt-get install python-setuptools -y -f
+sudo easy_install pip
+
+echo "[global]" > /etc/pip.conf
+echo "cert=/etc/ssl/certs/ca-certificates.crt" >> /etc/pip.conf
+
+# needed by ubuntu/xenial64 box
+sudo apt-get install puppet -y -f
+
+EOF
+############################################################################
+
+
 def configure_vm(name, vm, conf)
   vm.hostname = conf["hostname_#{name}"] || name
 
@@ -57,7 +79,7 @@ def configure_vm(name, vm, conf)
   end
 
   # puppet not installed by default in ubuntu-xenial
-  vm.provision "shell", inline: "sudo apt-get install -y puppet"
+  vm.provision "shell", inline: CUSTOM_SCRIPT
 
   # puppet provisioning
   vm.provision "puppet" do |puppet|
