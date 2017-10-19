@@ -19,7 +19,11 @@ DATABASE_TYPE=mysql
 # networking configuration parameters
 
 GUEST_INTERFACE_DEFAULT=<%= @guest_interface_default %>
-HOST_IP_IFACE=<%= @host_ip_iface %>
+HOST_IP=<%= @ip_address_manager %>
+PUBLIC_INTERFACE=<%= @host_ip_iface %>
+FLOATING_RANGE=<%= @floating_range %>
+PUBLIC_NETWORK_GATEWAY=<%= @public_network_gateway %>
+Q_FLOATING_ALLOCATION_POOL=start=<%= @floating_allocation_pool_start %>,end=<%= @floating_allocation_pool_end %>
 
 # logging configuration parameters
 

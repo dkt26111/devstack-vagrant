@@ -24,8 +24,8 @@ apt-get install -y git
 USEHTTPS
 
 
-############################ CUSTOM_SCRIPT ############################
-CUSTOM_SCRIPT = <<-EOF
+############################ CUSTOM_PRE_SCRIPT ############################
+CUSTOM_PRE_SCRIPT = <<-EOF
 #!/bin/bash
 
 # install custom CA certificates
@@ -40,6 +40,32 @@ echo "cert=/etc/ssl/certs/ca-certificates.crt" >> /etc/pip.conf
 
 # needed by ubuntu/xenial64 box
 sudo apt-get install puppet -y -f
+
+EOF
+############################################################################
+
+
+############################ CUSTOM_POST_SCRIPT ############################
+CUSTOM_POST_SCRIPT = <<-EOF
+#!/bin/bash
+
+sudo su - stack /bin/bash -c '
+cd ~/devstack
+source openrc admin admin
+
+# enable dhcp for public subnet
+subnetid=$(openstack subnet list --network public --ip-version 4 -c ID -f value)
+echo "$subnetid"
+echo "Enabling dhcp for subnet $subnetid ..."
+openstack subnet set --dhcp $subnetid
+
+# enable ICMP and SSH access rule for public network
+export secgrp=$(openstack security group list --project admin -c ID -f value)
+echo "Creating ICMP rule for security group $secgrp ..."
+openstack security group rule create --protocol icmp --ingress $secgrp
+echo "Creating SSH rule for security group $secgrp ..."
+openstack security group rule create --protocol tcp --ingress --dst-port 22 $secgrp
+'
 
 EOF
 ############################################################################
@@ -79,7 +105,7 @@ def configure_vm(name, vm, conf)
   end
 
   # puppet not installed by default in ubuntu-xenial
-  vm.provision "shell", inline: CUSTOM_SCRIPT
+  vm.provision "shell", inline: CUSTOM_PRE_SCRIPT
 
   # puppet provisioning
   vm.provision "puppet" do |puppet|
@@ -109,6 +135,8 @@ def configure_vm(name, vm, conf)
       shell.inline = "sudo su - stack -c 'cd ~/devstack && ./stack.sh'"
     end
   end
+
+  vm.provision "shell", inline: CUSTOM_POST_SCRIPT
 
   if conf['setup_mode'] == "grenade"
     vm.provision "shell" do |shell|
