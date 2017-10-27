@@ -14,7 +14,7 @@ service_password: secretsecret
 admin_password: secretsecret
 
 # The public SSH key that should be used for the system user 'stack'.
-stack_sshkey: the_ssh_public_key_you_want_for_your_stack_user
+#stack_sshkey: the_ssh_public_key_you_want_for_your_stack_user
 
 # Define the setup mode to install the environment.
 # valid values: grenade, devstack
@@ -30,13 +30,14 @@ bridge_int: eth0
 
 # A non upstream for the base box, used to speed things up. Choose one of
 # box_name (for a locally added box) or box_url for the url of a nearby box.
-#box_name: 'ubuntu/xenial64'
+box_name: 'ubuntu/xenial64'
 #box_name: 'bento-xenial64'
-box_name: 'geerlinguy_xenial64_v104'
+#box_name: 'geerlingguy/ubuntu1604'
+#box_version: '1.0.6'
 #box_url: http://gallifrey/vagrant/devstack-2014-02-19.box
 
 # Vagrant username used in box image, e.g. ubuntu
-vagrant_username: vagrant
+#vagrant_username: vagrant
 
 # Non upstream Git URL to fetch Devstack from instead.
 #devstack_git: /home/vagrant/openstack/devstack
@@ -73,8 +74,8 @@ floating_allocation_pool_start: 10.0.20.40
 floating_allocation_pool_end: 10.0.20.254
 
 # Name of network interface in virtual machine - e.g. enp0s8 in ubuntu
-guest_interface_default: eth1
-host_ip_iface: eth1
+guest_interface_default: enp0s8
+host_ip_iface: enp0s8
 
 # Extra images to download and add to glance, a list of url's comma separated
 # for new images to be added to glance

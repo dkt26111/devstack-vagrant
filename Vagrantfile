@@ -39,6 +39,7 @@ echo "[global]" > /etc/pip.conf
 echo "cert=/etc/ssl/certs/ca-certificates.crt" >> /etc/pip.conf
 
 # needed by ubuntu/xenial64 box
+sudo apt-get update
 sudo apt-get install puppet -y -f
 
 EOF

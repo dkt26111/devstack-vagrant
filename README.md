@@ -5,6 +5,12 @@ This is an all-in-one devstack environment using Vagrant and Puppet.
 It was originally forked from https://github.com/openstack-dev/devstack-vagrant.
 Below is the original README from that repo.
 
+> **Note for Windows Users:**
+
+> - If you are running vagrant under Windows, you must take of the CRLF after checking out the code.
+> - One way is to run dos2unix on all files under the puppet directory
+> - dos2unix is available here: https://sourceforge.net/projects/dos2unix/
+
 It is *almost* fully generic, but still hard codes a few things about
 my environment for lack of a way to figure out how to do this
 completely generically (puppet templates currently hate me under

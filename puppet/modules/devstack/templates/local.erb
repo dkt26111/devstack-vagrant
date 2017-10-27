@@ -67,6 +67,9 @@ enable_service ldap
 enable_service <%= @manager_extra_services %>
 <% end %>
 
+enable_plugin senlin https://git.openstack.org/openstack/senlin
+enable_plugin senlin-dashboard https://git.openstack.org/openstack/senlin-dashboard
+
 NOVNC_BRANCH=v0.6.0
 
 [[post-config|$NOVA_CONF]]
