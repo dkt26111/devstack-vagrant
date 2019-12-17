@@ -32,19 +32,13 @@ VERBOSE=True
 LOG_COLOR=True
 SCREEN_LOGDIR=/opt/stack/logs
 
-enable_plugin heat https://git.openstack.org/openstack/heat
+enable_plugin heat https://opendev.org/openstack/heat
 enable_service s-proxy s-object s-container s-account
 
 # configure images provided on glance (manager)
 
 IMAGE_URLS="<%= @extra_images %>"
 
-# configure ceilometer (manager)
-
-enable_service dstat
-enable_service ceilometer-acompute ceilometer-acentral ceilometer-anotification ceilometer-collector ceilometer-api
-enable_service ceilometer-alarm-notifier ceilometer-alarm-evaluator
-CEILOMETER_BACKEND=mongodb
 
 disable_service n-net
 enable_service q-svc
@@ -67,8 +61,11 @@ enable_service ldap
 enable_service <%= @manager_extra_services %>
 <% end %>
 
-enable_plugin senlin https://git.openstack.org/openstack/senlin
-enable_plugin senlin-dashboard https://git.openstack.org/openstack/senlin-dashboard
+enable_plugin senlin https://opendev.org/openstack/senlin
+enable_plugin senlin-dashboard https://opendev.org/openstack/senlin-dashboard
+enable_plugin python-senlinclient https://opendev.org/openstack/python-senlinclient
+
+enable_plugin zaqar https://opendev.org/openstack/zaqar
 
 NOVNC_BRANCH=v0.6.0
 

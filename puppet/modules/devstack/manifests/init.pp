@@ -10,7 +10,7 @@ class devstack(
   if $devstack_git {
     $source = $devstack_git
   } else {
-    $source = 'https://git.openstack.org/openstack-dev/devstack'
+    $source = 'https://opendev.org/openstack/devstack'
   }
 
   if $devstack_branch {
@@ -20,7 +20,7 @@ class devstack(
   }
 
   exec { 'devstack_clone':
-    require => File['/usr/local/bin/git_clone.sh'],
+    require => [ File['/usr/local/bin/git_clone.sh'], File['/home/stack/.bashrc'] ],
     path => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:.',
     environment => "HOME=/home/$user",
     user => 'stack',

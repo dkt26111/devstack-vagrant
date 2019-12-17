@@ -30,7 +30,7 @@ bridge_int: eth0
 
 # A non upstream for the base box, used to speed things up. Choose one of
 # box_name (for a locally added box) or box_url for the url of a nearby box.
-box_name: 'bento/ubuntu-16.04'
+box_name: 'bento/ubuntu-18.04'
 #box_name: 'bento-xenial64'
 #box_name: 'geerlingguy/ubuntu1604'
 #box_version: '1.0.6'
@@ -43,7 +43,7 @@ vagrant_username: vagrant
 #devstack_git: /home/vagrant/openstack/devstack
 
 # If you have code on a different branch than master, you can set it here.
-devstack_branch: stable/pike
+#devstack_branch: stable/pike
 
 # You can specify a proxy, for example https://github.com/tmatilai/polipo-box,
 # to be used for HTTP connections to speed things up.

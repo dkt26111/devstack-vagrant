@@ -10,7 +10,7 @@ class grenade(
   if $grenade_git {
     $source = $grenade_git
   } else {
-    $source = 'https://git.openstack.org/openstack-dev/grenade'
+    $source = 'https://opendev.org/openstack/grenade'
   }
 
   if $grenade_branch {
@@ -20,7 +20,7 @@ class grenade(
   }
 
   exec { 'grenade_clone':
-    require => File['/usr/local/bin/git_clone.sh'],
+    require => [ File['/usr/local/bin/git_clone.sh'], File['/home/stack/.bashrc'] ],
     path => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:.',
     environment => "HOME=/home/$user",
     user => 'stack',
