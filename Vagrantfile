@@ -106,6 +106,7 @@ def configure_vm(name, vm, conf)
   end
 
   # puppet not installed by default in ubuntu-xenial
+
   vm.provision "shell", inline: CUSTOM_PRE_SCRIPT
 
   # puppet provisioning
